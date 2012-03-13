@@ -1,0 +1,13 @@
+<div class="keyword">
+    <div class="keyword1"></div>
+    <div class="keyword2"></div>
+    {$lang.curlocal}:
+    <!--{foreach from=$_curlocal item=lnk}-->
+    <!--{if $lnk.url}-->
+    <a href="{$lnk.url}">{$lnk.text|escape}</a> &gt;
+    <!--{else}-->
+    {$lnk.text|escape}
+    <!--{/if}-->
+    <!--{/foreach}-->
+</div>
+

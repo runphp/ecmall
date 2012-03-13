@@ -1,0 +1,43 @@
+{include file="header.html"}
+{include file="curlocal.html"}
+<div class="flow_chart">
+    <div class="pos_x1 bg_a1" title="{$lang.shopping_step_one}"></div>
+    <div class="pos_x2 bg_b2" title="{$lang.shopping_step_two}"></div>
+    <div class="pos_x3 bg_c2" title="{$lang.shopping_step_three}"></div>
+</div>
+
+<div class="content">
+    <div class="module_common">
+        <div class="step_main">
+            <div class="null_shopping">
+                <h4>{$lang.cart_empty_notice}</h4>
+                <p>
+                    <a href="index.php">{$lang.choice_goods}>></a>
+                    <a href="{url app=buyer_order}">{$lang.view_orders}>></a>
+                </p>
+            </div>
+
+            <!--{if $best_items}-->
+            <h2><b class="best_item" title="{$lang.best_item}"></b></h2>
+            <div class="wrap">
+                <div class="wrap_child">
+                    <ul class="list_pic">
+                        <!--{foreach from=$best_items item=goods}-->
+                        <li>
+                            <p><a href="{url app=goods&goods_id=$goods.goods_id}"><img alt="" src="{$goods.default_image}" width="100" height="100" /></a></p>
+                            <h3><a href="{url app=goods&goods_id=$goods.goods_id}">{$goods.description|escape}</a><span>{$goods.price|price}</span></h3>
+                        </li>
+                        <!--{/foreach}-->
+                    </ul>
+
+                </div>
+            </div>
+            <!--{/if}-->
+
+            <div class="clear"></div>
+
+        </div>
+    </div>
+
+</div>
+{include file="footer.html"}

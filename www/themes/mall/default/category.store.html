@@ -1,0 +1,69 @@
+{include file=header.html}
+{include file=curlocal.html}
+
+<div class="content">
+    <div class="left">
+        <div class="module_sidebar">
+            <h2><b>{$lang.recommended_store}</b></h2>
+            <div class="wrap">
+                <div class="wrap_child">
+                    <ul class="particular">
+                        <!--{foreach from=$recommended_stores item=store}-->
+                        <li>
+                            <div class="pic"><a href="{url app=store&id=$store.store_id}" target="_blank"><img src="{$store.store_logo}" width="65" height="65" /></a></div>
+                            <dl>
+                                <dt><a href="{url app=store&id=$store.store_id}" target="_blank">{$store.store_name|escape}</a></dt>
+                                <dd>{$lang.store_owner}:{$store.user_name|escape}</dd>
+                                <dd>{$lang.goods}:{$store.goods_count}</dd>
+                                <dd>{$lang.credit}:{$store.praise_rate}%</dd>
+                            </dl>
+                        </li>
+                        <!--{/foreach}-->
+                    </ul>
+                </div>
+            </div>
+
+            <h2><b>{$lang.new_store}</b></h2>
+            <div class="wrap">
+                <div class="wrap_child">
+                    <ul class="particular">
+                        <!--{foreach from=$new_stores item=store}-->
+                        <li>
+                            <div class="pic"><a href="{url app=store&id=$store.store_id}" target="_blank"><img src="{$store.store_logo}" width="65" height="65" /></a></div>
+                            <dl>
+                                <dt><a href="{url app=store&id=$store.store_id}" target="_blank">{$store.store_name|escape}</a></dt>
+                                <dd>{$lang.store_owner}:{$store.user_name|escape}</dd>
+                                <dd>{$lang.goods}:{$store.goods_count}</dd>
+                                <dd>{$lang.credit}:{$store.praise_rate}%</dd>
+                            </dl>
+                        </li>
+                        <!--{/foreach}-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="right">
+        <div class="module_sidebar">
+            <h2><b class="gategory" title="CATEGORY{$lang.scategory}"></b></h2>
+            <div class="wrap">
+                <div class="wrap_child">
+                    <div class="recommend">
+                        <dl class="shop_assort">
+                            <!--{foreach from=$scategorys item=scategory}-->
+                            <dt class="bg_color1"><a href="{url app=search&act=store&cate_id=$scategory.id}">{$scategory.value|escape}</a></dt>
+                            <dd>
+                                <!--{foreach from=$scategory.children item=child}-->
+                                <a href="{url app=search&act=store&cate_id=$child.id}">{$child.value|escape}</a>
+                                <!--{/foreach}-->
+                            </dd>
+                            <!--{/foreach}-->
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file=footer.html}

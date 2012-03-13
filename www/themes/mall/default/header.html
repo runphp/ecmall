@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<base href="{$site_url}/" />
+<!-- Use IE7 mode -->
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7 charset={$charset}" />
+<meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
+{$page_seo}
+
+<meta name="author" content="ecmall.shopex.cn" />
+<meta name="generator" content="ECMall {$ecmall_version}" />
+<meta name="copyright" content="ShopEx Inc. All Rights Reserved" />
+<link href="{res file=css/ecmall.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="index.php?act=jslang"></script>
+<script type="text/javascript" src="{lib file=jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=ecmall.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{res file=js/nav.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{res file=js/select.js}" charset="utf-8"></script>
+<script type="text/javascript">
+//<!CDATA[
+var SITE_URL = "{$site_url}";
+var PRICE_FORMAT = '{$price_format}';
+
+$(function(){
+    var select_list = document.getElementById("select_list");
+    var float_list = document.getElementById("float_list");
+    select_list.onmouseover = function () {
+        float_list.style.display = "block";
+    };
+    select_list.onmouseout = function () {
+        float_list.style.display = "none";
+    };
+});
+//]]>
+</script>
+
+{$_head_tags}
+<!--<editmode></editmode>-->
+</head>
+
+<body>
+
+<div id="head">
+    <h1 title="{$site_title}"><a href="index.php"><img alt="{$site_title}" src="{$site_logo}" /></a></h1>
+    <div class="menu">
+        <p class="link1">
+            {$lang.hello},{$visitor.user_name|escape}
+            <!--{if !$visitor.user_id}-->
+            [<a href="{url app=member&act=login&ret_url=$ret_url}">{$lang.login}</a>]
+            [<a href="{url app=member&act=register&ret_url=$ret_url}">{$lang.register}</a>]
+            <!--{else}-->
+            [<a href="{url app=member&act=logout}">{$lang.logout}</a>]
+            <!--{/if}-->
+        </p>
+        <ul class="subnav">
+            <li id="select_list">
+                <a class="z_index" href="{url app=member}">{$lang.member_center}</a>
+                <ul id="float_list">
+                    <div class="adorn1"></div>
+                    <div class="adorn2"></div>
+                    <!--{if $visitor.store_id}-->
+                    <li><a href="{url app=my_goods}">{$lang.my_goods}</a></li>
+                    <li><a href="{url app=seller_order}">{$lang.order_manage}</a></li>
+                    <li><a href="{url app=my_qa}">{$lang.my_qa}</a></li>
+                    <!--{else}-->
+                    <li><a href="{url app=buyer_order}">{$lang.my_order}</a></li>
+                    <li><a href="{url app=buyer_groupbuy}">{$lang.my_groupbuy}</a></li>
+                    <li><a href="{url app=my_question}">{$lang.my_question}</a></li>
+                    <!--{/if}-->
+                </ul>
+            </li>
+            <li class="line"><a href="{url app=message&act=newpm}">{$lang.pm}<!--{if $new_message}-->({$new_message})<!--{/if}--></a></li>
+            <li class="line"><a href="{url app=article&code=$acc_help}">{$lang.help_center}</a></li>
+            <!--{foreach from=$navs.header item=nav}-->
+            <li class="line"><a href="{$nav.link}"{if $nav.open_new} target="_blank"{/if}>{$nav.title|escape}</a></li>
+            <!--{/foreach}-->
+        </ul>
+    </div>
+</div>
+
+<ul id="nav">
+    <div class="nav1"></div>
+    <div class="nav2"></div>
+    <li><a class="{if $index}link{else}hover{/if}" href="index.php"><span>{$lang.index}</span></a></li>
+    <!--{foreach from=$navs.middle item=nav}-->
+    <li><a class="{if !$index and $nav.link eq $current_url}link{else}hover{/if}" href="{$nav.link}"{if $nav.open_new} target="_blank"{/if}><span>{$nav.title|escape}</span></a></li>
+    <!--{/foreach}-->
+</ul>
+
+<div class="search">
+    <div class="search1"></div>
+    <div class="search2"></div>
+    <div class="wrap">
+        <form method="GET" action="{url app=search}">
+            <div class="border">
+                <div class="select_js">
+                    <p>{$lang.search_goods}</p>
+                    <div class="ico"></div>
+                    <ul>
+                        <li ectype="index">{$lang.search_goods}</li>
+                        <li ectype="store">{$lang.search_store}</li>
+                        <li ectype="groupbuy">{$lang.search_groupbuy}</li>
+                    </ul>
+                    <input type="hidden" name="act" value="index" />
+                </div>
+                <input type="text" name="keyword" class="text2" />
+            </div>
+            <input type="hidden" name="app" value="search" />
+            <input type="submit" name="Submit" value="{$lang.search}" class="btn" />
+        </form>
+        <p><a href="{url app=category}">{$lang.gcategory}</a><br /><a href="{url app=category&act=store}">{$lang.scategory}</a></p>
+    </div>
+    <div class="nav">
+        <div class="nav1"></div>
+        <div class="nav2"></div>
+        <a href="{url app=cart}" class="buy">{$lang.shopping_cart} <strong id="cart_goods_kinds">{$cart_goods_kinds}</strong> {$lang.kind_of_goods}</a>
+        <a href="{url app=my_favorite}" class="buyline">{$lang.favorite}</a>
+        <a href="{url app=buyer_order}" class="buyline">{$lang.my_order}</a>
+    </div>
+</div>

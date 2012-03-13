@@ -1,0 +1,49 @@
+<!--{if $payform.online}-->
+  <h3>{$lang.connecting_pay_gateway}</h3>
+  <form action="{$payform.gateway}" id="payform" method="{$payform.method}" style="display:none">
+  <!-- {foreach from=$payform.params item=value key=_k} -->
+    <input type="hidden" name="{$_k}" value="{$value}" />
+  <!-- {/foreach} -->
+  </form>
+  <script type="text/javascript">
+      document.getElementById('payform').submit();
+  </script>
+{else}
+{include file="header.html"}
+{include file="curlocal.html"}
+<style type="text/css">
+.payment_desc { margin:10px 10px 20px 10px; background:#eee; padding:5px; }
+.payment_desc h3 { margin:5px; border-bottom:#ddd 1px dotted; padding-bottom:5px; }
+.payment_desc .detail { text-indent:2em; }
+.table_form { margin:0px 10px; }
+.table_form td { padding:5px; }
+.table_form .desc { color:#888; font-style:italic; }
+</style>
+<div class="content">
+    <div class="module_common">
+        <div class="payment_desc">
+        <h3>{$lang.payment_desc}</h3>
+        <div class="detail">
+            {$payform.desc}
+        </div>
+        </div>
+        <form id="pay_message_form" action="index.php?app=cashier&act=offline_pay&order_id={$order.order_id}" method="POST">
+            <table class="table_form" width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr>
+                    <td valign="top" style="padding:5px; width:90px;">
+                                            {$lang.input_pay_message}
+                    <span class="desc">({$lang.input_pay_message_notice})</span></td>
+                    <td>
+                    <textarea name="pay_message" cols="60" rows="5">{$order.pay_message|escape}</textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" style="float:left;margin-left:100px;" value="{$lang.submit}&nbsp;&raquo;" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+{include file="footer.html"}
+<!--{/if}-->

@@ -1,0 +1,15 @@
+<!--{if $page_info.page_count gt 1}-->
+<div class="page1">
+    <p>{$lang.turn_page}: </p>
+    <!--{if $page_info.prev_link}-->
+    <a class="former" href="{$page_info.prev_link}"></a>
+    <!--{else}-->
+    <span class="former_no"></span>
+    <!--{/if}-->
+    <!--{if $page_info.next_link}-->
+    <a class="down" href="{$page_info.next_link}">{$lang.next_page}</a>
+    <!--{else}-->
+    <span class="down_no">{$lang.next_page}</span>
+    <!--{/if}-->
+</div>
+<!--{/if}-->

@@ -1,0 +1,139 @@
+{include file=member.header.html}
+<script type="text/javascript">
+$(function(){
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+    $('.checkall_s').click(function(){
+        var if_check = $(this).attr('checked');
+        $('.checkitem').each(function(){
+            if(!this.disabled)
+            {
+                $(this).attr('checked', if_check);
+            }
+        });
+        $('.checkall_s').attr('checked', if_check);
+    });
+    $('a[ectype="batchcancel"]').click(function(){
+        if($('.checkitem:checked').length == 0){
+            return false;
+        }
+        if($(this).attr('presubmit')){
+            if(!eval($(this).attr('presubmit'))){
+                return false;
+            }
+        }
+        var items = '';
+        $('.checkitem:checked').each(function(){
+            items += this.value + ',';
+        });
+        items = items.substr(0, (items.length - 1));
+
+        var uri = $(this).attr('uri');
+        uri = uri + '&' + $(this).attr('name') + '=' + items;
+        var id = 'seller_order_cancel_order';
+        var title = $(this).attr('dialog_title') ? $(this).attr('dialog_title') : '';
+        //var url = $(this).attr('uri');
+        var width = '500';
+        ajax_form(id, title, uri, width);
+    });
+});
+</script>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">{include file=member.submenu.html}
+        <div class="wrap">
+            <div class="scarch_order">
+                <form method="get">
+                <div style="float:left;">
+                <span class="title">{$lang.order_sn}:</span>
+                <input class="text_normal" type="text" name="order_sn" value="{$query.order_sn|escape}" />
+                <span class="title">{$lang.add_time}:</span>
+                <input class="text_normal width2" type="text" name="add_time_from" id="add_time_from" value="{$query.add_time_from}" /> &#8211; <input class="text_normal width2" id="add_time_to" type="text" name="add_time_to" value="{$query.add_time_to}" />
+                <span class="title">{$lang.buyer_name}:</span>
+                <input class="text_normal" type="text" name="buyer_name" value="{$query.buyer_name|escape}" />
+                <input type="hidden" name="app" value="seller_order" />
+                <input type="hidden" name="act" value="index" />
+                <input type="hidden" name="type" value="{$type}" />
+                <input type="submit" class="btn" value="{$lang.search}" />
+                </div>
+                <!--{if $query.buyer_name or $query.add_time_from or $query.add_time_to or $query.order_sn}-->
+                    <a class="detlink" href="{url app=seller_order&type=$query.type}">{$lang.cancel_query}</a>
+                <!--{/if}-->
+
+        </form>
+
+        </div>
+         <div class="public_index table">
+                <table>
+                    <tr <!--{if $orders}--> class="table_line"<!--{/if}-->>
+                    <th class="width1"><input id="all" type="checkbox" class="checkall_s" /></th>
+                    <th class="align1" colspan="7">
+                            <label for="all"><span class="all">{$lang.checkall}</span></label>
+                            <a href="javascript:;" class="delete" ectype="batchcancel" uri="index.php?app=seller_order&act=cancel_order" name="order_id">{$lang.cancel_order}</a>
+                        </th>
+                    </tr>
+                    <!--{if $orders}-->
+                    <tr class="line tr_bgcolor">
+                        <th></th>
+                        <th>{$lang.order_sn}</th>
+                        <th>{$lang.buyer_name}</th>
+                        <th width="200">{$lang.consignee}</th>
+                        <th>{$lang.phone_tel}</th>
+                        <th>{$lang.payment_name}</th>
+                        <th>{$lang.order_amount}</th>
+                        <th width="90">{$lang.order_status}</th>
+                    </tr>
+                    <!--{/if}-->
+                    <!-- 循环开始 -->
+                    <!--{foreach from=$orders item=order}-->
+                    <tr class="color2">
+                        <td class="align2"><input type="checkbox" value="{$order.order_id}" class="checkitem" <!--{if $order.status eq ORDER_FINISHED || $order.status eq ORDER_CANCELED}--> disabled="disabled" <!--{/if}-->/></td>
+                        <td><span class="color3">{$order.order_sn}{if $order.extension eq 'groupbuy'}<span class="color8">[{$lang.groupbuy}]</span>{/if}</span></td>
+                        <td class="align2">{$order.buyer_name|escape}</td>
+                        <td class="align2">{$order.consignee|escape}</td>
+                        <td class="align2"><!--{ if $order.phone_mob neq ''}-->{$order.phone_mob}<!--{else}-->{$order.phone_tel}<!--{/if}--><br />
+</td>
+                        <td class="align2">{$order.payment_name|escape}</td>
+                        <td class="align2 padding1"><strong>{$order.order_amount|price}</strong></td>
+                        <td class="align2"><span class="color4">{$order.status|modifier:order_status}<!--{if $order.evaluation_status}-->,&nbsp;{$lang.already_evaluate}<!--{/if}--></span></td>
+                    </tr>
+                    <tr class="line_bottom">
+                        <td colspan="8" align="right" class="order_form1"><div class="button_wrap">
+                        <input type="button" value="{$lang.received_pay}" class="btn" ectype="dialog" dialog_id="seller_order_received_pay" dialog_width="400" uri="index.php?app=seller_order&amp;act=received_pay&amp;order_id={$order.order_id}&ajax" dialog_title="{$lang.received_pay}" id="order{$order.order_id}_action_received_pay"{if $order.status neq ORDER_PENDING} style="display:none"{/if} />
+                        <input type="button" value="{$lang.confirm_cod_order}" class="btn1" ectype="dialog" uri="index.php?app=seller_order&amp;act=confirm_order&amp;order_id={$order.order_id}&ajax" dialog_id="seller_order_confirm_order" dialog_title="{$lang.confirm_cod_order}"  dialog_width="400" id="order{$order.order_id}_action_confirm"{if $order.status neq ORDER_SUBMITTED} style="display:none"{/if} />
+                        <input type="button" value="{$lang.adjust_fee}" class="btn1" uri="index.php?app=seller_order&amp;act=adjust_fee&amp;order_id={$order.order_id}&ajax" dialog_width="450" dialog_title="{$lang.adjust_fee}" ectype="dialog"  dialog_id="seller_order_adjust_fee" id="order{$order.order_id}_action_adjust_fee"{if $order.status neq ORDER_PENDING and $order.status neq ORDER_SUBMITTED} style="display:none"{/if} />
+                        <input type="button" value="{$lang.shipped_order}" class="btn1" ectype="dialog" dialog_title="{$lang.shipped_order}" dialog_id="seller_order_shipped" uri="index.php?app=seller_order&amp;act=shipped&amp;order_id={$order.order_id}&ajax"  dialog_width="400" id="order{$order.order_id}_action_shipped"{if $order.status neq ORDER_ACCEPTED} style="display:none"{/if} />
+                        <!--//已发货-->
+                        <input type="button" value="{$lang.finish_order}" class="btn1" ectype="dialog" dialog_id="seller_order_finished"  dialog_title="{$lang.finish_order}" uri="index.php?app=seller_order&amp;act=finished&order_id={$order.order_id}&ajax" dialog_width="400"  id="order{$order.order_id}_action_finish"{if $order.payment_code neq 'cod' or $order.status neq ORDER_SHIPPED} style="display:none"{/if} />
+                        <input type="button" value="{$lang.edit_invoice_no}" class="btn1" ectype="dialog" dialog_title="{$lang.edit_invoice_no}" uri="index.php?app=seller_order&amp;act=shipped&amp;order_id={$order.order_id}&ajax" dialog_id="seller_order_shipped" dialog_width="400" id="order{$order.order_id}_action_edit_invoice_no"{if $order.status neq ORDER_SHIPPED} style="display:none"{/if} />
+                        <!-- //不是取消和完成的订单就可以取消-->
+                        <input type="button" value="{$lang.cancel_order}" class="btn1" ectype="dialog" uri="index.php?app=seller_order&amp;act=cancel_order&order_id={$order.order_id}&ajax" dialog_title="{$lang.cancel_order}" dialog_id="seller_order_cancel_order" dialog_width="400" id="order{$order.order_id}_action_cancel"{if $order.status eq ORDER_CANCELED or $order.status eq ORDER_FINISHED} style="display:none"{/if} />
+                        <a class="btn1" href="{url app=seller_order&act=view&order_id=$order.order_id}" target="_blank">{$lang.view_order}</a>
+                       </div> </td>
+                    </tr>
+                    <!--{foreachelse}-->
+                    <tr><td class="member_no_records" colspan="8">{$lang.no_records}</td></tr>
+                    <!--{/foreach}-->
+                    <!--{if $orders}-->
+                    <tr><th class="width1"><input id="all2" type="checkbox" class="checkall_s" /></th>
+                    <th class="align1" colspan="7">
+                            <p class="position1">
+                                <label for="all2"><span class="all">{$lang.checkall}</span></label>
+                                <a href="javascript:;" class="delete" ectype="batchcancel" uri="index.php?app=seller_order&act=cancel_order" name="order_id">{$lang.cancel_order}</a>
+                            </p>
+                            <p class="position2">
+                                {include file=member.page.bottom.html}
+                            </p>
+                        </th>
+                    </tr>
+                    <!--{/if}-->
+                    </table>
+                    <iframe name="seller_order" style="display:none;"></iframe>
+        </div>
+    <div class="wrap_bottom"></div>
+    </div>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+{include file=footer.html}

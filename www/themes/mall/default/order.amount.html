@@ -1,0 +1,40 @@
+                <script type="text/javascript">
+                $(function(){
+                   $('#check_coupon').click(function(){
+                       var coupon_sn = $('#coupon_sn').val();
+                       if(coupon_sn == '')
+                       {
+                           return;
+                       }
+                       $.getJSON("index.php?app=order&act=check_coupon", {coupon_sn: coupon_sn, store_id: '{$smarty.get.store_id}'}, function(data){
+                           if(data['retval'])
+                           {
+                               $('.unusable').hide();
+                               var msg = '{$lang.usable}';
+                               var str = price_format(data['retval']['price']);
+                               $('.usable').show().html(msg + str).css("display","block");
+                           }
+                           else
+                           {
+                               $('.usable').hide();
+                               $('.unusable').show().css("display","block");
+                               $('#coupon_sn').val('');
+                           }
+                       });
+                   });
+               });
+                </script>
+                <div class="make_sure">
+                    <p>{$lang.order_amount}:&nbsp;<strong class="fontsize3" id="order_amount">{$goods_info.amount|price}</strong>{if $goods_info.allow_coupon}&nbsp;&nbsp;<input type="button" class="btn1" onclick="$(this).parent('p').next().toggle();$('#coupon_sn').val('');" />{/if}</p>
+                    {if $goods_info.allow_coupon}
+                    <p style="display:none;">{$lang.coupon_sn}:&nbsp;
+                    <input type="text" name="coupon_sn" id="coupon_sn" class="text" />  
+                    <input type="button" value="{$lang.check}" class="check" id="check_coupon" />
+                    <span class="usable">{$lang.usable}</span> <span class="unusable">{$lang.unusable}</span>
+                    </p>
+                    {/if}
+                    <p>
+                        <a href="javascript:void($('#order_form').submit());" class="btn">{$lang.shopping_step_three}</a>
+                        <a href="{url app=cart&store_id=$goods_info.store_id}" class="back">{$lang.backto_cart}</a>
+                    </p>
+                </div>

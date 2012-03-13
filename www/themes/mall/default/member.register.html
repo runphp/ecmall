@@ -1,0 +1,168 @@
+{include file="header.html"}
+<script type="text/javascript">
+//注册表单验证
+$(function(){
+    $('#register_form').validate({
+        errorPlacement: function(error, element){
+            var error_td = element.parent('td').next('td');
+            error_td.find('.field_notice').hide();
+            error_td.append(error);
+        },
+        success       : function(label){
+            label.addClass('validate_right').text('OK!');
+        },
+        onkeyup: false,
+        rules : {
+            user_name : {
+                required : true,
+                byteRange: [3,15,'{$charset}'],
+                remote   : {
+                    url :'index.php?app=member&act=check_user&ajax=1',
+                    type:'get',
+                    data:{
+                        user_name : function(){
+                            return $('#user_name').val();
+                        }
+                    },
+                    beforeSend:function(){
+                        var _checking = $('#checking_user');
+                        _checking.prev('.field_notice').hide();
+                        _checking.next('label').hide();
+                        $(_checking).show();
+                    },
+                    complete :function(){
+                        $('#checking_user').hide();
+                    }
+                }
+            },
+            password : {
+                required : true,
+                minlength: 6
+            },
+            password_confirm : {
+                required : true,
+                equalTo  : '#password'
+            },
+            email : {
+                required : true,
+                email    : true
+            },
+            captcha : {
+                required : true,
+                remote   : {
+                    url : 'index.php?app=captcha&act=check_captcha',
+                    type: 'get',
+                    data:{
+                        captcha : function(){
+                            return $('#captcha1').val();
+                        }
+                    }
+                }
+            },
+            agree : {
+                required : true
+            }
+        },
+        messages : {
+            user_name : {
+                required : '{$lang.user_name_required}',
+                byteRange: '{$lang.user_name_limit}',
+                remote   : '{$lang.user_already_taken}'
+            },
+            password  : {
+                required : '{$lang.password_required}',
+                minlength: '{$lang.password_length_limit}'
+            },
+            password_confirm : {
+                required : '{$lang.password_confirm_please}',
+                equalTo  : '{$lang.password_inconsistent}'
+            },
+            email : {
+                required : '{$lang.email_required}',
+                email    : '{$lang.email_invalid}'
+            },
+            captcha : {
+                required : '{$lang.captcha_required}',
+                remote   : '{$lang.captcha_error}'
+            },
+            agree : {
+                required : '{$lang.agree_required}'
+            }
+        }
+    });
+});
+</script>
+<div class="content">
+    <div class="module_common">
+        <h2><b class="register" title="JOIN US{$lang.user_register}"></b></h2>
+        <div class="wrap">
+            <div class="wrap_child">
+                <div class="login_con">
+                    <div class="login_fill_in">
+                        <form name="" id="register_form" method="post" action="">
+                        <table>
+                            <tr>
+                                <td colspan="3"><h4>{$lang.enter_register_info}</h4></td>
+                            </tr>
+                            <tr>
+                                <td>{$lang.user_name}:</td>
+                                <td><input type="text" id="user_name" name="user_name" class="text width10" /></td>
+                                <td class="padding3 fontColor4"><label class="field_notice">{$lang.user_name_desc}</label><label id="checking_user" class="checking">{$lang.checking}</label></td>
+                            </tr>
+                            <tr>
+                                <td>{$lang.password}:</td>
+                                <td><input type="password" id="password" name="password" class="text width10" /></td>
+                                <td class="padding3 fontColor4"><label class="field_notice">{$lang.password_desc}</label></td>
+                            </tr>
+                            <tr>
+                                <td>{$lang.password_confirm}:</td>
+                                <td><input type="password" name="password_confirm" class="text width10" /></td>
+                                <td class="padding3 fontColor4"><label class="field_notice">{$lang.password_confirm_desc}</label></td>
+                            </tr>
+                            <tr>
+                                <td>{$lang.email}:</td>
+                                <td><input type="text" name="email" class="text width10" /></td>
+                                <td class="padding3 fontColor4"><label class="field_notice">{$lang.email_desc}</label></td>
+                            </tr>
+                            <!--{if $captcha}-->
+                            <tr>
+                                <td>{$lang.captcha}:</td>
+                                <td>
+                                    <input type="text" name="captcha" class="text" id="captcha1" />
+                                    <a href="javascript:change_captcha($('#captcha'));" class="renewedly"><img id="captcha" src="index.php?app=captcha&amp;{$random_number}" /></a>
+                                </td>
+                                <td class="padding3 fontColor4"><label class="field_notice">{$lang.captcha_desc}</label></td>
+                            </tr>
+                            <!--{/if}-->
+                            <tr>
+                                <td></td>
+                                <td><input id="clause" type="checkbox" name="agree" value="1" /> <label for="clause">{$lang.i_have_read} <a href="{url app=article&act=system&code=eula}" target="_blank" class="agreement">{$lang.mall_eula}</a></label></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="2"><input type="submit" name="Submit" value="" class="login_btn" title="{$lang.register_now}" /></td><input type="hidden" name="ret_url" value="{$ret_url}" />
+                            </tr>
+                        </table>
+                        </form>
+                    </div>
+
+                    <div class="login_right">
+                        <h4>{$lang.attention}:<br />{$lang.not_member}</h4>
+                        <p>{$lang.after_register}</p>
+                        <ol>
+                            <li><strong>1.</strong> {$lang.save_profile}</li>
+                            <li><strong>2.</strong> {$lang.collect_goods}</li>
+                            <!--<li><strong>3.</strong> {$lang.member_point}</li>-->
+                            <li><strong>3.</strong> {$lang.subscription_goods}</li>
+                        </ol>
+                        <h4>{$lang.already_have_account}</h4>
+                        <a href="{url app=member&act=login&ret_url=$ret_url}" class="enter" title="{$lang.login_now}"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="footer.html"}
