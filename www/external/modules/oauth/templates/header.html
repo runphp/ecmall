@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<base href="{$site_url}/" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+{$page_seo}
+<meta name="author" content="runphp.net" />
+<meta name="generator" content="1.0" />
+<!-- Framework CSS -->
+<link rel="stylesheet" href="{res file=css/blueprint/screen.css}" type="text/css" media="screen, projection">
+<link rel="stylesheet" href="{res file=css/blueprint/print.css}" type="text/css" media="print">
+<!--[if lt IE 8]><link rel="stylesheet" href="{res file=css/blueprint/ie.css}" type="text/css" media="screen, projection"><![endif]-->
+<link href="{res file=css/hezimu.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="index.php?act=jslang"></script>
+<script type="text/javascript" src="{lib file=jquery.js}" charset="utf-8"></script>
+<script type="text/javascript">
+//<!CDATA[
+var SITE_URL = "{$site_url}";
+var PRICE_FORMAT = '{$price_format}';
+//]]>
+</script>
+{$_head_tags}
+<!--<editmode></editmode>-->
+</head>
+<body>
+<div class="container">
+<div class="span-24 last">
+     
+        <div class="span-4 prepend-6">{$lang.hello},{$visitor.user_name|escape}
+            <!--{if !$visitor.user_id}-->
+            [<a href="{url app=member&act=login&ret_url=$ret_url}">{$lang.login}</a>]
+            [<a href="{url app=member&act=register&ret_url=$ret_url}">{$lang.register}</a>]
+            <!--{else}-->
+            [<a href="{url app=member&act=logout}">{$lang.logout}</a>]
+            <!--{/if}-->
+        </div>
+        <div class="span-14 last">        
+            <ul class="subnav span-14">
+            <li class="span-2">
+                <a href="{url app=member}">{$lang.member_center}<b></b></a>
+                <ul>
+                    <!--{if $visitor.store_id}-->
+                    <li><a href="{url app=my_goods}">{$lang.my_goods}</a></li>
+                    <li><a href="{url app=seller_order}">{$lang.order_manage}</a></li>
+                    <li><a href="{url app=my_qa}">{$lang.my_qa}</a></li>
+                    <!--{else}-->
+                    <li><a href="{url app=buyer_order}">{$lang.my_order}</a></li>
+                    <li><a href="{url app=buyer_groupbuy}">{$lang.my_groupbuy}</a></li>
+                    <li><a href="{url app=my_question}">{$lang.my_question}</a></li>
+                    <!--{/if}-->
+                </ul>
+            </li>
+            <li class="span-2"><a href="{url app=message&act=newpm}">{$lang.pm}<!--{if $new_message}-->({$new_message})<!--{/if}--></a></li>
+            <li class="span-2"><a href="{url app=article&code=$acc_help}">{$lang.help_center}</a></li>
+            <!--{foreach from=$navs.header item=nav}-->
+            <li class="span-2"><a href="{$nav.link}"{if $nav.open_new} rel="external"{/if}>{$nav.title|escape}</a></li>
+            <!--{/foreach}-->
+            </ul>                  
+        </div>
+</div>
+<div class="span-24 last">
+<div class="span-4 append-1">
+    <h1 title="{$site_title}" class="span-5 last"><a href="{$site_url}"><img alt="{$site_title}" src="{$site_logo}" /></a></h1>
+</div>
+<div class="span-19 last">
+        <form method="get" action="{url app=search}" class="inline">					
+					<input type="hidden" name="act" value="index" />
+					<input type="hidden" name="app" value="search" />					
+					<div class="span-8"><input type="text" name="keyword" class="text" /></div>					
+					<div class="span-2 last"><input type="submit" name="submit" value="{$lang.search}" class="button" /></div>
+		</form>
+</div>
+</div>
+<div class="span-24 last">
+<ul class="subnav span-24 last">
+    <li class="span-2"><a class="{if $index}link{else}hover{/if}" href="{$site_url}"><span>{$lang.index}</span></a></li>
+    <!--{foreach from=$navs.middle item=nav}-->
+    <li class="span-2"><a class="{if !$index and $nav.link eq $current_url}link{else}hover{/if}" href="{$nav.link}"{if $nav.open_new} rel="external"{/if}><span>{$nav.title|escape}</span></a></li>
+    <!--{/foreach}-->
+</ul>
+</div>

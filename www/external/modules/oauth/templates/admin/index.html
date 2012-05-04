@@ -1,0 +1,28 @@
+{include file="header.html"}
+<div id="rightTop">
+    <p><strong>{$lang.oauth_manage}</strong></p>
+</div>
+
+<div class="info">
+ <form method="post" enctype="multipart/form-data">
+    <table class="infoTable">
+        <tr>
+            <th rowspan="2" width="15%">qq登录</th>
+            <td class="paddingT15" width="15%">appid</td>
+            <td class="paddingT15 wordSpacing5" width="70%"><input size="10" type="text" name="qq[appid]" value="{$configs.qq.appid}" /></td>
+        </tr>
+        <tr>
+            <td class="paddingT15">appkey</td>
+            <td class="paddingT15 wordSpacing5"><input size="32" type="text" name="qq[appkey]" value="{$configs.qq.appkey}" /></td>
+        </tr>
+        <tr>
+			<td rowspan="2"></td>
+			<td></td>
+			<td class="ptb20"><input type="submit" value="提交" name="Submit"
+				class="formbtn"> <input type="button" value="返回"
+				onclick="window.history.go(-1)" class="formbtn"></td>
+		</tr>
+    </table>
+    </form>
+</div>
+{include file="footer.html"}

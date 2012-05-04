@@ -1,0 +1,18 @@
+<div class="span-24 last">
+    <div class="span-23 prepend-1 last">
+        <a href="{$site_url}">{$site_title}</a>
+        <!--{foreach from=$navs.footer item=nav}-->
+        | <a href="{$nav.link}"{if $nav.open_new} target="_blank"{/if}>{$nav.title|escape}</a>
+        <!--{/foreach}-->
+    </div>
+    <div class="span-23 prepend-1 last">
+    Powered by <a href="http://runphp.net">runphp.net</a> &copy; 2003-2009 Hezimu Inc.
+    <!--{if $icp_number}--><br />{$icp_number}<!--{/if}-->
+    {sprintf lang=query_info var1=query_time var2=query_count var3=query_user_count}
+    <!--{if $gzip_enabled}-->{$lang.gzip_enabled}<!--{else}-->{$lang.gzip_disabled}<!--{/if}-->
+    <!--{if $memory_info}-->{sprintf lang=memory_info var1=memory_info}<!--{/if}--> {$statistics_code}    
+    </div>
+</div>
+</div>
+</body>
+</html>
