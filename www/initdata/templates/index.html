@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
+<title>ECMall 测试数据安装程序</title>
+</head>
+
+<body>
+<p><strong style="color:#FF0000">声明: </strong>如果您需要安装测试数据，我们建议您在安装 ECMall 之后立即运行本程序。如果您的商城已经正式运营，请不要运行本程序，因为本程序将会删除您商城现有的数据（包括地区、商品分类、店铺分类、店铺、商品、订单等），届时造成的后果我们将不负任何责任。</p>
+<p>安装测试数据需要注册下面两个用户，默认为 seller 和 buyer ，如果您的用户系统中已有重名用户，请更换用户名。</p>
+<p>
+    <form method="post">
+        <p><label for="seller">卖家用户名: </label><input type="text" id="seller" name="seller" value="seller" /> 密码: 123456</p>
+        <p><label for="buyer">买家用户名: </label><input type="text" id="buyer" name="buyer" value="buyer" /> 密码: 123456</p>
+        <p><input type="submit" value="开始安装" onclick="return window.confirm('点确定后将要立即执行安装程序，确定要执行安装吗？')" /></p>
+    </form>
+</p>
+</body>
+</html>
