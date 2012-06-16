@@ -47,9 +47,13 @@ class FrontendApp extends ECBaseApp
         $this->assign('site_title', Conf::get('site_title'));
         $this->assign('site_logo', Conf::get('site_logo'));
         $this->assign('statistics_code', Conf::get('statistics_code')); // 统计代码
+        /*
         $current_url = explode('/', $_SERVER['REQUEST_URI']);
         $count = count($current_url);
         $this->assign('current_url',  $count > 1 ? $current_url[$count-1] : $_SERVER['REQUEST_URI']);// 用于设置导航状态(以后可能会有问题)
+        */
+        $current_url = explode('/', $_SERVER['REQUEST_URI'], 2);        
+        $this->assign('current_url',  $current_url[1]);
         parent::display($tpl);
     }
     function login()
