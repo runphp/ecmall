@@ -1,0 +1,47 @@
+{include file=header.html}
+{include file=curlocal.html}
+
+<div class="content" style="margin-bottom:10px; ">
+    <div class="left w208">
+        <div class="linebox">
+            <h1><span>{$lang.recommended_brands}</span></h1>
+            <ul class="brands2">
+                <!--{foreach from=$recommended_brands item=brand}-->
+                <li><a href="{url app=search&brand=$brand.brand_name}" target="_blank"><img src="{$brand.brand_logo}" width="86" height="48" alt="" title="{$brand.brand_name}" /></a></li>
+                <!--{/foreach}-->
+            </ul>
+
+            <h1><span>{$lang.recommended_stores}</span></h1>
+            <!--{foreach from=$recommended_stores item=store}-->
+            <div class="bring_forth">
+                <div class="gleft"><a class="ware_pic" href="{url app=store&id=$store.store_id}" target="_blank"><img src="{$store.store_logo}" width="65" height="65" /></a></div>
+                <div class="bring_forth_text w92 gleft">
+                    <h2><a href="{url app=store&id=$store.store_id}" target="_blank">{$store.store_name}</a></h2>
+                    <p>
+                        {$lang.owner_name}&nbsp;:{$store.user_name}<br />
+                        {$lang.goods}&nbsp;:{$store.goods_count}<br />
+                        {$lang.praise}&nbsp;:{$store.praise_rate}%
+                    </p>
+                </div>
+            </div>
+           <!--{/foreach}-->
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="right w780">
+        <div class="linebox1">
+            <h1><img alt="{$lang.all_brands}" src="{res file=images}/brands_list.gif" /></h1>
+            <!--{foreach from=$brands item=brand}-->
+            <div class="linebox_dt"><!--{if $brand.tag}-->{$brand.tag}<!--{else}-->{$lang.other}<!--{/if}--> ({$brand.count})</div>
+            <ul class="brands_pic">
+                <!--{foreach from=$brand.brands item=b}-->
+                <li><a href="{url app=search&brand=$b.brand_name}" target="_blank"><img src="{$b.brand_logo}" width="86" height="48" alt="" title="{$b.brand_name}" /></a></li>
+                <!--{/foreach}-->
+            </ul>
+            <!--{/foreach}-->
+        </div>
+    </div>
+
+</div>
+
+{include file=footer.html}

@@ -1,0 +1,67 @@
+{include file="header.html"}
+{include file="curlocal.html"}
+
+<div class="flow_chart">
+    <div class="pos_x1 bg_a2" title="{$lang.shopping_step_one}"></div>
+    <div class="pos_x2 bg_b2" title="{$lang.shopping_step_two}"></div>
+    <div class="pos_x3 bg_c1" title="{$lang.shopping_step_three}"></div>
+</div>
+
+<div class="content">
+    <form action="index.php?app=cashier&act=goto_pay&order_id={$order.order_id}" method="POST" id="goto_pay">
+    <div class="module_common">
+        <div class="step_main">
+            <div class="clue_on"><h4>{$lang.order_created}</h4><p>{$lang.order_created_desc}</p></div>
+            <div class="order_information">
+                <h3>
+                    <b>{$lang.order_sn}&nbsp;:&nbsp;<span>{$order.order_sn}</span></b>
+                    <b>{$lang.order_amount}&nbsp;:&nbsp;<span>{$order.order_amount|price}</span></b>
+                </h3>
+                <p><a href="{url app=buyer_order}" target="_blank">{$lang.member_view_order}</a></p>
+            </div>
+
+            <div class="buy">
+                <h3><b class="ico">{$lang.select_payment}</b></h3>
+                <!--{if $payments.online}-->
+                <dl class="defray">
+                    <dt>{$lang.online_payment}</dt>
+                    <!--{foreach from=$payments.online item=payment}-->
+                    <dd>
+                        <p class="radio"><input id="payment_{$payment.payment_code}" type="radio" name="payment_id" value="{$payment.payment_id}" /></p>
+                        <p class="logo"><label for="payment_{$payment.payment_code}"><img src="{$site_url}/includes/payments/{$payment.payment_code}/logo.gif" alt="{$payment.payment_name|escape}-{$payment.payment_desc|escape}" title="{$payment.payment_name|escape}-{$payment.payment_desc|escape}" width="125" height="47" /></label></p>
+                        <p class="explain">{$payment.payment_desc|escape}</p>
+                    </dd>
+                    <!--{/foreach}-->
+                </dl>
+                <!--{/if}-->
+                <!--{if $payments.offline}-->
+                <dl class="defray">
+                    <dt>{$lang.offline_payment}</dt>
+                    <!--{foreach from=$payments.offline item=payment}-->
+                    <dd>
+                        <p class="radio"><input type="radio" id="payment_{$payment.payment_code}" name="payment_id" value="{$payment.payment_id}" /></p>
+                        <p class="logo"><label for="payment_{$payment.payment_code}"><img alt="{$payment.payment_name|escape}-{$payment.payment_desc|escape}" title="{$payment.payment_name|escape}-{$payment.payment_desc|escape}" src="{$site_url}/includes/payments/{$payment.payment_code}/logo.gif" width="125" height="47" /></label></p>
+                        <p class="explain">{$payment.payment_desc|escape}</p>
+                    </dd>
+                    <!--{/foreach}-->
+                </dl>
+                <!--{/if}-->
+
+            </div>
+            <div class="make_sure">
+                <p>
+                    <a href="javascript:$('#goto_pay').submit();" class="btn">{$lang.confirm_pay}</a>
+                </p>
+            </div>
+            <!--<div class="remark">
+                商品将于5工作日内送达。<a href="#">配送范围请查看</a>。<br />
+                您可以在 <a href="#">我的订单</a>  中查看或取消您的订单，由于系统需进行订单预处理，您可能不会立刻查询到刚提交的订单。<br />
+                如果您现在不方便支付，可以随后到 <a href="#">我的订单</a>  完成支付，我们会在48小时内为您保留未支付的订单。
+            </div>-->
+            <div class="clear"></div>
+        </div>
+    </div>
+    </form>
+</div>
+
+{include file="footer.html"}

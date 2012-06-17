@@ -1,0 +1,18 @@
+<div class="span-20 last inline">
+    <div class="span-10 prepend-5">
+    {$lang.order_by}:
+    <select ectype="order_by">{html_options options=$orders selected=$smarty.get.order}</select>
+    </div>
+<!--{if $page_info.page_count gt 1}-->
+    <div class="span-5 last">
+    {$lang.turn_page}:
+    <!--{if $page_info.prev_link}-->
+    <a href="{$page_info.prev_link}">{$lang.prev_page}</a>
+    <!--{/if}-->
+    
+    <!--{if $page_info.next_link}-->
+    <a href="{$page_info.next_link}">{$lang.next_page}</a>    
+    <!--{/if}-->
+    </div>
+<!--{/if}-->
+</div>

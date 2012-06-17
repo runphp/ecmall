@@ -1,0 +1,128 @@
+{include file=member.header.html}
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        <div class="wrap_line margin1">
+            <div class="public">
+                <div class="information_index">
+                    <div class="photo">
+                        <p><img src="{$user.portrait}" width="120" height="120" alt="" /></p>
+                    </div>
+
+                    <div class="info">
+                        <h3 class="margin2">
+                            <span>{$lang.welcome}{$user.user_name|escape}</span>
+                            <a href="{url app=member&act=profile}">{$lang.edit_profile}>></a>
+                        </h3>
+                        <table class="width6">
+                            <tr>
+                                <td>{$lang.last_login}: {$user.last_login|date:complete}</td>
+                                <td>
+                                <!--{if $store}-->
+                                {$lang.credit_value}: <a href="{url app=store&act=credit&id=$store.store_id}" target="_blank">{$store.credit_value}</a>{if $store.credit_value ge 0 } <img src="{$store.credit_image}" /> {/if}
+                                <!--{/if}-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{$lang.last_ip}: {$user.last_ip}</td>
+                                <td>
+                                <!--{if $store}-->
+                                {$lang.praise_rate}: {$store.praise_rate}%
+                                <!--{/if}-->
+                                </td>
+                            </tr>
+                        </table>
+                        <p>{sprintf lang=you_have_pm var1=new_message}</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+        <div class="wrap_line margin1">
+            <div class="public_index">
+                <div class="information_index">
+                    <h3 class="title">{$lang.buyer_remind}</h3>
+                    <!--{if $buyer_stat && $buyer_stat.sum}-->
+                    <div class="remind">
+                        <dl>
+                            <dt>{$lang.order_remind}</dt>
+                            <dd>{sprintf lang=order_for_pay_remind var1=buyer_stat.pending}</dd>
+                            <dd>{sprintf lang=order_for_confirm_remind var1=buyer_stat.shipped}</dd>
+                            <dd>{sprintf lang=order_for_evaluate_remind var1=buyer_stat.finished}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{$lang.groupbuy_remind}</dt>
+                            <dd>{sprintf lang=groupbuy_for_finished_remind var1=buyer_stat.groupbuy_finished}</dd>
+                            <dd>{sprintf lang=groupbuy_for_canceled_remind var1=buyer_stat.groupbuy_canceled}</dd>
+                        </dl>
+                        <a href="{url app=buyer_order}" class="btn pos1" title="{$lang.look_order}"><span class="pic1">{$lang.look_order}</span></a>
+                    </div>
+                    <!--{else}-->
+                    <div class="awoke">
+                        {$lang.go_shopping}
+                    </div>
+                    <!--{/if}-->
+                </div>
+
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+<!--{if $store}-->
+        <div class="wrap_line">
+            <div class="public_index">
+                <div class="information_index">
+                    <h3 class="title">{$lang.seller_remind}
+                        <p>
+                        <span>{$lang.store_grade}: {$sgrade.grade_name}</span>
+                        <span>{$lang.expire_time}: <!--{if $sgrade.add_time}-->{sprintf lang=leaving_day var1=sgrade.add_time}<!--{else}-->{$lang.no_limit}<!--{/if}--></span>
+                        <span>{$lang.goods_put}: {$sgrade.goods.used}/<!--{if $sgrade.goods.total}-->{$sgrade.goods.total}<!--{else}-->{$lang.no_limit}<!--{/if}--></span>
+                        <span>{$lang.space_use}: {$sgrade.space.used}M/<!--{if $sgrade.space.total}-->{$sgrade.space.total}M<!--{else}-->{$lang.no_limit}<!--{/if}--></span>
+                        </p>
+                    </h3>
+                    <div class="remind">
+                        <dl>
+                            <dt>{$lang.order_remind}</dt>
+                            <dd>{sprintf lang=order_for_settle_remind var1=seller_stat.submitted}</dd>
+                            <dd>{sprintf lang=order_for_ship_remind var1=seller_stat.accepted}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{$lang.groupbuy_remind}</dt>
+                            <dd>{sprintf lang=groupbuy_for_end_remind var1=seller_stat.groupbuy_end}</dd>
+                        </dl>
+                        <a href="{url app=store&id=$store.store_id}" title="{$lang.look_store}" target="_blank" class="btn1 pos2"><span class="pic2">{$lang.look_store}</span></a>
+                        <a href="{url app=seller_order}" class="btn pos3" title="{$lang.manage_order}"><span class="pic1">{$lang.manage_order}</span></a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+<!--{/if}-->
+<!--{if $applying}-->
+        <div class="wrap_line">
+            <div class="public_index">
+                <div class="information_index">
+                    <h3 class="title">{$lang.apply_remind}</h3>
+                    <div class="remind">
+                        <dl>
+                            <dt>{$lang.apply_state}</dt>
+                            <dd>{sprintf lang=store_applying var1=user.sgrade}</dd>
+                        </dl>
+                        <a href="index.php?app=apply&step=2&id={$user.sgrade}" title="{$lang.edit_store_info}" class="btn1 pos2"><span class="pic2">{$lang.edit_store_info}</span></a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+<!--{/if}-->
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+{include file=footer.html}

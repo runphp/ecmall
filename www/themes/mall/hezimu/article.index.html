@@ -1,0 +1,44 @@
+{include file=library/header.html}
+{include file=library/curlocal.html}
+<hr class="space"/>
+<div class="span-24 last">
+    <div class="span-3 colborder">
+        <h6>{$lang.acategory}</h6>
+        <div class="span-3">
+			<ul>
+				<!-- {foreach from=$acategories item=acategory} -->
+				<li><a href="{url app=article&cate_id=$acategory.cate_id}">{$acategory.cate_name|escape}</a></li>
+				<!-- {/foreach} -->
+			</ul>
+		</div>
+		<hr />
+        <h6>{$lang.new_article}</h6>
+        <div class="span-3">
+			<ul>
+				<!-- {foreach from=$new_articles item=new_article} -->
+				<li><a {if $new_article.link}rel="external"{/if} href="{url app=article&act=view&article_id=$new_article.article_id}">{$new_article.title|escape}</a></li>
+				<!-- {foreachelse} -->
+				<li>{$lang.no_new_article}</li>
+				<!-- {/foreach} -->
+			</ul>
+		</div>
+    </div>
+
+    <div class="span-20 last">
+        {include file=page.top2.html}
+		<table>
+			<!-- {foreach from=$articles item=article} -->
+			<tr>
+				<td><a {if $article.link}rel="external"{/if} href="{url app=article&act=view&article_id=$article.article_id}">{$article.title|escape}</a></td>
+				<td>{$article.add_time|date:Y-m-d H:i}</td>
+			</tr>
+			<!-- {foreachelse} -->
+			<tr>
+				<td align="center" colspan="2">{$lang.no_records}</td>
+			</tr>
+			<!-- {/foreach} -->
+		</table>
+		{include file=library/page.bottom.html}
+    </div>
+</div>
+{include file=library/footer.html}

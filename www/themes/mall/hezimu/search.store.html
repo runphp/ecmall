@@ -1,0 +1,106 @@
+{include file=header.html}
+{include file=curlocal.html}
+<script type="text/javascript">
+//<!CDATA[
+$(function (){
+    var order = '{$smarty.get.order}';
+    var arrow = '';
+
+    switch (order){
+        case 'credit_value desc' : order = '';
+        arrow = '{$lang.down_arrow}';
+        break;
+        default : order = 'credit_value desc';
+    }
+    $('#credit_grade').html('{$lang.credit_grade}' + arrow);
+    $('#credit_grade').click(function(){query('order', order);return false;});
+}
+);
+function query(name, value){
+    $("input[name='"+name+"']").val(value);
+    $('#search').submit();
+}
+
+//]]>
+</script>
+
+<div class="content">
+    <div class="left">
+        <div class="module_sidebar">
+            <h2><b>{$lang.scategory}</b></h2>
+            <div class="wrap">
+                <div class="wrap_child">
+                    <!--{foreach from=$scategorys item=scategory}-->
+                    <dl class="sidebar_list">
+                        <dt class="bg_color1"><a href="{url app=search&act=store&cate_id=$scategory.id}">{$scategory.value|escape}</a></dt>
+                        <!--{foreach from=$scategory.children item=child}-->
+                        <dd><a href="{url app=search&act=store&cate_id=$child.id}">{$child.value|escape}</a></dd>
+                        <!--{/foreach}-->
+                    </dl>
+                    <!--{/foreach}-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="right">
+        <div class="shop_list">
+            <div class="ornament1"></div>
+            <div class="ornament2"></div>
+            <div class="search_bar">
+                <form id="search" method="GET" action="index.php">
+                    <input type="hidden" name="order" value="{$smarty.get.order|escape}"/>
+                    <input type="hidden" name="app" value="search"/>
+                    <input type="hidden" name="act" value="store"/>
+                    <input type="hidden" name="cate_id" value="{$smarty.get.cate_id|escape}"/>
+                    <span class="display_span">{$lang.store_name}</span><input class="table_text" type="text" name="keyword" value="{$query.keyword|escape}" />
+                    <span class="display_span">{$lang.user_name}</span><input class="table_text" type="text" name="user_name" value="{$query.user_name|escape}" />
+                    <span class="display_span">{$lang.region_name}</span>
+                    <select id="region_id" name="region_id" class="display_select">
+                        <option value="">{$lang.region_name}</option>
+                        {html_options options=$regions selected=$query.region_id}
+                    </select>
+                    <input class="table_btn" type="submit" name="Submit" value="{$lang.search}" />
+                </form>
+                <div class="shop_page">
+                    {include file=page.top.html}
+                </div>
+            </div>
+            <table>
+                <tr>
+                    <th class="align1">{$lang.store}</th>
+                    <th>{$lang.goods_num}</th>
+                    <th class="width2">{$lang.seller}</th>
+                    <th><a id="credit_grade" href="javascript:void(0);">{$lang.credit_grade}</a></th>
+                    <th>{$lang.region_name}</th>
+                </tr>
+                <!--{foreach from=$stores item=store}-->
+                <tr>
+                    <td class="width1">
+                        <p class="ware_pic"><a href="{url app=store&id=$store.store_id}"><img src="{$store.store_logo}" width="65" height="65" /></a></p>
+                        <h3>
+                            <a href="{url app=store&id=$store.store_id}">{$store.store_name|escape}</a>
+                        </h3>
+                    </td>
+                    <td class="align2">{$store.goods_count}</td>
+                    <td class="align2"><p class="name">{$store.user_name|escape}</p><a target="_blank" class="email" href="{$site_url}/index.php?app=message&amp;act=send&amp;to_id={$store.user_id}"><img src="{res file=images/web_mail.gif}" alt="{$lang.send_pm}" /></a></td>
+                    <td class="align2">
+                        <!--{if $store.credit_value ge 0}-->
+                        <img src="{$store.credit_image}" />
+                        <!--{else}-->
+                        {$store.credit_value}
+                        <!--{/if}-->
+                    </td>
+                    <td class="align2">{$store.region_name|escape}</td>
+                </tr>
+                <!--{/foreach}-->
+            </table>
+        </div>
+        
+        <div class="shop_list_page">
+            {include file=page.bottom.html}
+        </div>
+    </div>
+</div>
+
+{include file=footer.html}

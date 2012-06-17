@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<base href="{$site_url}/" />
+<!-- Use IE7 mode -->
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7 charset={$charset}" />
+<meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
+{$page_seo}
+
+<meta name="author" content="ecmall.shopex.cn" />
+<meta name="copyright" content="ShopEx Inc. All Rights Reserved" />
+<link href="{res file=css/user.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+//<!CDATA[
+var SITE_URL = "{$site_url}";
+var PRICE_FORMAT = '{$price_format}';
+//]]>
+</script>
+<script type="text/javascript" src="index.php?act=jslang"></script>
+<script type="text/javascript" src="{lib file=jquery.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=ecmall.js}" charset="utf-8"></script>
+<script type="text/javascript" src="{lib file=member.js}" charset="utf-8"></script>
+<script type="text/javascript">
+$(function(){
+    $('#left h1 span,h2.title a.fold').click(function(){
+        if($(this).hasClass('span_close')){
+            $(this).removeClass('span_close');
+            $(this).addClass('span_open');
+            this.title = 'open';
+            closeSubmenu($(this).parent());
+        }
+        else{
+            $(this).removeClass('span_open');
+            $(this).addClass('span_close');
+            this.title = 'close';
+            openSubmenu($(this).parent());
+        }
+    });
+
+    var span = $("#child_nav");
+    span.hover(function(){
+        $("#float_layer:not(:animated)").show();
+    }, function(){
+        $("#float_layer").hide();
+    });
+});
+function closeSubmenu(h1){
+    h1.next('ul').css('display', 'none');
+}
+function openSubmenu(h1){
+    h1.next('ul').css('display', '');
+}
+</script>
+{$_head_tags}
+</head>
+<body>
+<div id="header">
+    <h1 title="{$site_title}"><a href="index.php"><img src="{$site_logo}" alt="{$site_title}" /></a></h1>
+    <div id="subnav">
+        <p>
+        {$lang.hello},{$visitor.user_name|escape}
+        <!--{if !$visitor.user_id}-->
+            [<a href="{url app=member&act=login&ret_url=$ret_url}">{$lang.login}</a>]
+            [<a href="{url app=member&act=register&ret_url=$ret_url}">{$lang.register}</a>]
+            <!--{else}-->
+            [<a href="{url app=member&act=logout}">{$lang.logout}</a>]
+            <!--{/if}-->
+        </p>
+        <p>
+        <a class="shopping" href="{url app=cart}">{$lang.shopping_cart}</a> <span>|</span>
+        <a class="favorite" href="{url app=my_favorite}">{$lang.favorite}</a> <span>|</span>
+        <a class="note" href="{url app=message&act=newpm}">{$lang.pm}{if $new_message}({$new_message}){/if}</a> <span>|</span>
+        <a class="help" href="{url app=article&code=$acc_help}">{$lang.help_center}</a>
+        </p>
+    </div>
+
+    <div id="topbtn">
+        <div class="topbtn1"></div>
+        <div class="topbtn2"></div>
+        <span id="child_nav">
+            <a class="link user" href="{url app=member}">{$lang.member_center}</a>
+            <ul id="float_layer">
+                <div id="adorn1"></div>
+                <div id="adorn2"></div>
+                <!--{if $visitor.store_id}-->
+                <li><a href="{url app=my_goods}">{$lang.my_goods}</a></li>
+                <li><a href="{url app=seller_order}">{$lang.order_manage}</a></li>
+                <li><a href="{url app=my_qa}">{$lang.my_qa}</a></li>
+                <!--{else}-->
+                <li><a href="{url app=buyer_order}">{$lang.my_order}</a></li>
+                <li><a href="{url app=buyer_groupbuy}">{$lang.my_groupbuy}</a></li>
+                <li><a href="{url app=my_question}">{$lang.my_question}</a></li>
+                <!--{/if}-->
+            </ul>
+        </span>
+        <span>|</span>
+        <a class="link" href="{url app=category}">{$lang.i_want_buy}</a>
+        <span>|</span>
+        <a class="link" href="{url app=my_goods&act=add}">{$lang.i_want_sell}</a>
+    </div>
+    <!--{if $_curlocal}-->
+    <div id="path">
+        {$lang.curlocal}:
+        <!--{foreach from=$_curlocal item=lnk}-->
+        <!--{if $lnk.url}-->
+        <a href="{$lnk.url}">{$lnk.text|escape}</a> <span>&#8250;</span>
+        <!--{else}-->
+        {$lnk.text|escape}
+        <!--{/if}-->
+        <!--{/foreach}-->
+    </div>
+    <!--{/if}-->
+    <div class="search">
+        <form id="" name="" method="get" action="">
+            <div class="input">
+                <div class="input1"></div>
+                <div class="input2"></div>
+                <select name="act" class="select1">
+                <option value="index">{$lang.search_goods}</option>
+                <option value="store">{$lang.search_store}</option>
+                <option value="groupbuy">{$lang.search_groupbuy}</option>
+                </select>
+                <input type="hidden" name="app" value="search" />
+                <input type="text" class="text2" name="keyword" />
+            </div>
+            <input class="btn" type="submit" name="Submit" value=""/>
+        </form>
+    </div>
+</div>

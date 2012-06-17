@@ -1,0 +1,187 @@
+{include file=library/header.html}
+{include file=library/curlocal.html}
+<hr class="space"/>
+<div class="span-3 colborder">
+<script type="text/javascript" src="{lib file=search_goods.js}" charset="utf-8"></script>
+<script type="text/javascript">
+var upimg   = '{res file=images/up.gif}';
+var downimg = '{res file=images/down.gif}';
+imgUping = new Image();
+imgUping.src = upimg;
+</script>
+    <!--{if $goods_list}-->
+	<ul class="module_filter_nav" ectype="ul_filter">
+		<!--{foreach from=$filters item=filter}-->
+		<li class="normal" ectype="li_filter"><span class="txt">{$filter.name}:
+				{$filter.value}</span> <span class="ico"><img
+				src="{res file=images/delete.gif}" title="{$filter.key}" /></span></li>
+		<!--{/foreach}-->
+		<!-- {if !$filters.brand} -->
+		<li class="normal" ectype="dropdown_filter_title" ecvalue="brand">
+			<span class="txt">{$lang.brand}: <a href="javascript:void(0);">{$lang.select_pls}</a></span>
+			<span class="ico"><img src="{res file=images/down.gif}" /></span>
+		</li>
+		<!-- {/if} -->
+		<li class="normal" ectype="dropdown_filter_title" ecvalue="price">
+			<span class="txt">{$lang.price}: <a href="javascript:void(0);">{$lang.select_pls}</a></span>
+			<span class="ico"><img src="{res file=images/down.gif}" /></span>
+		</li>
+		<!-- {if !$filters.region_id} -->
+		<li class="normal" ectype="dropdown_filter_title" ecvalue="region">
+			<span class="txt">{$lang.region}: <a
+				href="javascript:void(0);">{$lang.select_pls}</a></span> <span class="ico"><img
+				src="{res file=images/down.gif}" /></span>
+		</li>
+		<!-- {/if} -->
+	</ul>
+
+	<!-- {if !$filters.brand} -->
+	<div class="contain_list" ectype="dropdown_filter_content"
+		ecvalue="brand" style="display: none">
+		<ul ectype="ul_brand">
+			<!--{foreach from=$brands item=row}-->
+			<li><a href="javascript:void(0);" title="{$row.brand}"
+				id="{$row.brand|escape:url}">{$row.brand|escape} ({$row.count})</a></li>
+			<!--{/foreach}-->
+		</ul>
+	</div>
+	<!-- {/if} -->
+	<div class="contain_list" ectype="dropdown_filter_content"
+		ecvalue="price" style="display: none">
+		<ul ectype="ul_price">
+			<!--{foreach from=$price_intervals item=row}-->
+			<li><a href="javascript:void(0);"
+				title="{$row.min} - {$row.max}">{$row.min|price} -
+					{$row.max|price} ({$row.count})</a></li>
+			<!--{/foreach}-->
+		</ul>
+	</div>
+	<!-- {if !$filters.region_id} -->
+	<div class="contain_list" ectype="dropdown_filter_content"
+		ecvalue="region" style="display: none">
+		<ul ectype="ul_region">
+			<!--{foreach from=$regions item=row}-->
+			<li><a href="javascript:void(0);" id="{$row.region_id}"
+				title="{$row.region_name|escape}">{$row.region_name|escape}
+					({$row.count})</a></li>
+			<!--{/foreach}-->
+		</ul>
+	</div>
+	<!-- {/if} -->
+	<!--{/if}-->
+
+    <h3>{$lang.by_category}</h3>
+        <hr />
+	<ul>
+		<!--{foreach from=$categories item=category name=fe_category}-->
+		<!-- {if $smarty.foreach.fe_category.iteration le 10} -->
+		<li><a href="{url app=search&cate_id=$category.cate_id}">{$category.cate_name|escape}</a>({$category.count})</li>
+		<!-- {else} -->
+		<li style="display: none"><a href="{url app=search&cate_id=$category.cate_id}">{$category.cate_name|escape}</a>({$category.count})</li>
+		<!-- {/if} -->
+		<!--{/foreach}-->
+	</ul>
+	<!-- {if $category_count gt 10} -->
+	<div>
+		<input type="button" class="brands_btn"
+			value="{$lang.view_all_category}" id="show_category" />
+	</div>
+	<!-- {/if} -->
+
+    <!-- {if !$filters.brand} -->
+    <h3>{$lang.by_brand}</h3>
+        <hr />
+	<ul>
+		<!--{foreach from=$brands item=row name=fe_brand}-->
+		<!-- {if $smarty.foreach.fe_brand.iteration le 10} -->
+		<li><a href="{url app=search&cate_id=$cate_id&brand=$row.brand}" title="{$row.brand}"
+			id="{$row.brand|escape:url}">{$row.brand|escape}</a> ({$row.count})</li>
+		<!-- {else} -->
+		<li style="display: none"><a href="{url app=search&cate_id=$cate_id&brand=$row.brand}"
+			title="{$row.brand}" id="{$row.brand|escape:url}">{$row.brand|escape}</a>
+			({$row.count})</li>
+		<!-- {/if} -->
+		<!--{/foreach}-->
+	</ul>
+	<!-- {if $brand_count gt 10} -->
+	<div class="more">
+		<input type="button" class="brands_btn" value="{$lang.view_all_brand}"
+			id="show_brand" />
+	</div>
+	<!-- {/if} -->
+	<!-- {/if} -->
+ 
+	<h3>{$lang.by_price}</h3>
+	   <hr />
+	<ul ectype="ul_price">
+		<!--{foreach from=$price_intervals item=row}-->
+		<li><a href="javascript:void(0);" title="{$row.min} - {$row.max}">{$row.min|price}
+				- {$row.max|price}</a> ({$row.count})</li>
+		<!--{/foreach}-->
+		<li style="display: none"><input type="text" size="5" /> - <input
+			type="text" size="5" /> <input type="button" id="search_by_price"
+			value="{$lang.submit}" /></li>
+	</ul>
+
+	<div class="more">
+		<input type="button" class="brands_btn"
+			value="{$lang.set_price_interval}" id="set_price_interval" />
+	</div>
+    <hr />
+	<!-- {if !$filters.region_id} -->
+	<h3>{$lang.by_region}</h3>
+	    <hr />
+	<ul>
+		<!--{foreach from=$regions item=row name=fe_region}-->
+		<!-- {if $smarty.foreach.fe_region.iteration le 10} -->
+		<li><a href="javascript:void(0);" id="{$row.region_id}"
+			title="{$row.region_name|escape}">{$row.region_name|escape}</a>
+			({$row.count})</li>
+		<!-- {else} -->
+		<li style="display: none"><a href="javascript:void(0);"
+			id="{$row.region_id}" title="{$row.region_name}">{$row.region_name|escape}</a>
+			({$row.count})</li>
+		<!-- {/if} -->
+		<!--{/foreach}-->
+	</ul>
+    
+	<!-- {if $region_count gt 10} -->
+	<div class="more">
+		<input type="button" class="brands_btn"
+			value="{$lang.view_all_region}" id="show_region" />
+	</div>
+	<!-- {/if} -->
+	<!-- {/if} -->
+</div>
+<div class="span-20 last">
+    {include file=library/page.top.html}
+    <ul class="span-20 last goodslist">
+<!-- {foreach from=$goods_list item=goods name=goods} -->
+<li class="span-5 {if $smarty.foreach.goods.iteration % 4 == 0}last{/if}">
+    <div class="goods">
+        <div class="pic">
+            <a href="{url app=goods&id=$goods.goods_id}" rel="external"><img
+                src="{$goods.default_image}" width="180" height="180" /></a>
+            <label class="price">{$goods.price|price}</label>
+        </div>
+        <div class="title">
+            <a href="{url app=goods&id=$goods.goods_id}" rel="external"
+                title="{$goods.goods_name|escape}">{$goods.goods_name|escape}</a>
+        </div>
+        <div>
+            {$lang.store_name}: <a href="{url app=store&id=$goods.store_id}" rel="external">{$goods.store_name|escape}</a>({$goods.grade_name|escape})
+        </div>
+        <div>
+            <a href="{url app=goods&act=saleslog&id=$goods.goods_id}" rel="external">{$lang.sales}{$goods.sales|default:0} {$lang.unit}</a> | 
+            <a href="{url app=goods&act=comments&id=$goods.goods_id}"rel="external">{$goods.comments|default:0} {$lang.comment}</a>
+        </div>                
+    </div>
+</li>
+<!-- {if $smarty.foreach.goods.iteration % 4 == 0} --><li class="span-20 last"><hr class="space"/></li><!-- {/if} -->
+<!-- {foreachelse} -->
+<li class="span-20 last">{$lang.no_records}</li>
+<!-- {/foreach} -->
+    </ul>
+    {include file=library/page.bottom.html}
+</div>
+{include file=library/footer.html}

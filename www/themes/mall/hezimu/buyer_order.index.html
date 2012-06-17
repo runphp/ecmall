@@ -1,0 +1,93 @@
+{include file=member.header.html}
+<script type="text/javascript">
+$(function(){
+    $('#add_time_from').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_to').datepicker({dateFormat: 'yy-mm-dd'});
+});
+</script>
+<style type="text/css">
+.float_right {float: right;}
+</style>
+<div class="content">
+    {include file=member.menu.html}
+    <div id="right">
+        {include file=member.submenu.html}
+        <div class="wrap">
+            <div class="public">
+                <div class="user_search">
+                <form method="get">
+                    <!--{if $query.seller_name or $query.add_time_from or $query.add_time_to or $query.order_sn}-->
+                     <a class="detlink float_right" href="{url app=buyer_order}">{$lang.cancel_query}</a>
+                    <!--{/if}-->
+                    <span>{$lang.add_time}: </span>
+                    <input type="text" class="text1 width2" name="add_time_from" id="add_time_from" value="{$query.add_time_from}"/> &#8211;
+                    <input type="text" class="text1 width2" name="add_time_to" id="add_time_to" value="{$query.add_time_to}"/>
+                    <span>{$lang.order_sn}:</span>
+                    <input type="text" class="text1 width_normal" name="order_sn" value="{$query.order_sn|escape}">
+                    <span>{$lang.order_status}</span>
+                    <select name="type">
+                    {html_options options=$types selected=$type}
+                    </select>
+                    <input type="hidden" name="app" value="buyer_order" />
+                    <input type="hidden" name="act" value="index" />
+                    <input type="submit" class="btn" value="{$lang.soso}" />
+                </form>
+                </div>
+                <!--{foreach from=$orders item=order}-->
+                <div class="order_form">
+                    <h2>
+                        <p class="num">{$lang.order_sn}: {$order.order_sn}{if $order.extension eq 'groupbuy'}<span class="color8">[{$lang.groupbuy}]</span>{/if}</p>
+                        <p class="name"><span>{$lang.store_name}: <a href="{url app=store&id=$order.seller_id}" target="_blank">{$order.seller_name|escape}</a></span><a target="_blank" href="{url app=message&act=send&to_id=$order.seller_id}" class="email"></a></p>
+                        <p class="state">{$lang.order_status}: <strong>{$order.status|modifier:order_status}<!--{if $order.evaluation_status}-->,&nbsp;{$lang.already_evaluate}<!--{/if}--></strong></p>
+                    </h2>
+
+                    <!--{foreach from=$order.order_goods item=goods}-->
+                    <div class="con">
+                        <p class="ware_pic"><a href="{url app=goods&id=$goods.goods_id}" target="_blank"><img src="{$goods.goods_image}" width="50" height="50"  /></a></p>
+                        <p class="ware_text"><a href="{url app=goods&id=$goods.goods_id}" target="_blank">{$goods.goods_name|escape}</a><br /><span class="attr">{$goods.specification|escape}</span></p>
+                        <p class="price">{$lang.price}: <span>{$goods.price|price}</span></p>
+                        <p class="amount">{$lang.quantity}: <span>{$goods.quantity}</span></p>
+                    </div>
+                    <!--{/foreach}-->
+
+                    <div class="foot">
+                        <p class="time">{$lang.add_time}: {$order.add_time|date:Y-m-d H:i:s}</p>
+                        <!--{if $order.payment_name}-->
+                        <p class="defray">{$lang.payment_name}: {$order.payment_name|escape}</p>
+                        <!--{/if}-->
+                        <div class="handle">
+                            <div style="float:left;">
+                                {$lang.order_amount}: <b id="order{$order.order_id}_order_amount">{$order.order_amount|price}</b>
+                            </div>
+                            <a class="btn1" href="{url app=buyer_order&act=evaluate&order_id=$order.order_id}" target="_blank" id="order{$order.order_id}_evaluate"{if $order.status neq ORDER_FINISHED or $order.evaluation_status neq 0} style="display:none"{/if}>{$lang.evaluate}</a>
+                            <a href="{url app=cashier&order_id=$order.order_id}" target="_blank" id="order{$order.order_id}_action_pay"{if $order.status neq ORDER_PENDING} style="display:none"{/if} class="btn">{$lang.pay}</a>
+                            <input type="button" value="{$lang.confirm_order}" class="btn1" ectype="dialog" dialog_id="buyer_order_confirm_order" dialog_width="400" dialog_title="{$lang.confirm_order}" uri="index.php?app=buyer_order&amp;act=confirm_order&order_id={$order.order_id}&ajax"  id="order{$order.order_id}_action_confirm"{if $order.status neq ORDER_SHIPPED or $order.payment_code eq 'cod'} style="display:none"{/if} />
+                            <input type="button" value="{$lang.cancel_order}" class="btn1" ectype="dialog" dialog_width="400" dialog_title="{$lang.cancel_order}" dialog_id="buyer_order_cancel_order" uri="index.php?app=buyer_order&amp;act=cancel_order&order_id={$order.order_id}&ajax"  id="order{$order.order_id}_action_cancel"{if $order.status neq ORDER_PENDING and $order.status neq ORDER_SUBMITTED} style="display:none"{/if} />
+                            <a href="{url app=buyer_order&act=view&order_id=$order.order_id}" target="_blank" class="btn1">{$lang.view_order}</a>
+                        </div>
+                    </div>
+                </div>
+                <!--{foreachelse}-->
+                <div class="order_form member_no_records">
+                    <span>{$lang.no_records}</span>
+                </div>
+                <!--{/foreach}-->
+                <div class="order_form_page">
+                    <div class="page">
+                        {include file=member.page.bottom.html}
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="wrap_bottom"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="adorn_right1"></div>
+        <div class="adorn_right2"></div>
+        <div class="adorn_right3"></div>
+        <div class="adorn_right4"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<iframe id='iframe_post' name="iframe_post" src="about:blank" frameborder="0" width="0" height="0"></iframe>
+{include file=footer.html}

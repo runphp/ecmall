@@ -1,0 +1,124 @@
+{include file=header.html}
+{include file=curlocal.html}
+<script type="text/javascript" src="{lib file=search_groupbuy.js}" charset="utf-8"></script>
+<div class="content">
+    <!--{if $groupbuy_list}-->
+    <div class="left">
+
+        <div class="module_sidebar">
+            <h2><b>{$lang.recommended_groupbuy}</b></h2>
+            <div class="wrap">
+                <div class="wrap_child">
+
+                    <ul class="fellowship">
+                        <!-- {foreach from=$recommended_groupbuy item=group} -->
+                        <li>
+                            <div class="pic"><a target="_blank" href="{url app=groupbuy&id=$group.group_id}"><img src="{$group.default_image}" alt="{$group.group_name|escape}" width="65" height="65" /></a></div>
+                            <dl>
+                                <dt><a title="{$group.group_name|escape}" target="_blank" href="{url app=groupbuy&id=$group.group_id}">{$group.group_name|escape}</a></dt>
+                                <dd class="distance"><span title="{$group.price|price}">{$group.price|price}</span></dd>
+                                <dd class="time">{$group.lefttime}</dd>
+                            </dl>
+                        </li>
+                        <!-- {/foreach} -->
+                    </ul>
+
+                </div>
+            </div>
+            <h2><b>{$lang.last_groupbuy}</b></h2>
+            <div class="wrap">
+                <div class="wrap_child">
+
+                    <ul class="fellowship">
+                        <!-- {foreach from=$last_join_groupbuy item=group} -->
+                        <li>
+                            <div class="pic"><a target="_blank" href="{url app=groupbuy&id=$group.group_id}" ><img src="{$group.default_image}" alt="{$group.group_name|escape}" width="65" height="65" /></a></div>
+                            <dl>
+                                <dt><a target="_blank" href="{url app=groupbuy&id=$group.group_id}" title="{$group.group_name|escape}">{$group.group_name|escape}</a></dt>
+                                <dd class="distance"><span title="{$group.price|price}">{$group.price|price}</span></dd>
+                                <dd class="time">{$group.add_time|date:Y-m-d H:i}</dd>
+                            </dl>
+                        </li>
+                        <!-- {/foreach} -->
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="right">
+
+        <div class="shop_con_list">
+            <h2>
+                <div class="ornament1"></div>
+                <div class="ornament2"></div>
+                <div class="h2_wrap">
+                    <div class="table_title">
+                    <form method="get" action="index.php">
+                        <input type="hidden" name="app" value="search" />
+                        <input type="hidden" name="act" value="groupbuy" />
+                        <span class="display_span">{$lang.group_name}</span>
+                        <input class="table_text" name="keyword" type="text" value="{$smarty.get.keyword|escape}" />
+                        <span class="display_span">{$lang.state}</span>
+                        <select class="display_select" ectype="state">
+                            {html_options options=$state selected=$smarty.get.state}
+                        </select>
+                        <input class="table_btn" type="submit" name="Submit" value="{$lang.search}" />
+                        <span class="display_span">{$lang.order_by}</span>
+                        <span class="popularity" ectype="order_by_views">{$lang.views}</span>
+                        <span class="remainder" ectype="order_by_lefttime">{$lang.lefttime}</span>
+                    </form>                    
+                    </div>
+                    <div class="top_page">
+                        {include file=page.top.html}
+                    </div>
+                </div>
+            </h2>
+        </div>
+
+        <div class="group_shop">
+            <table>
+                <!-- {if $groupbuy_list} -->
+                <tr>
+                    <th colspan="2">{$lang.group_name}</th>
+                    <th>{$lang.group_price}</th>
+                    <th>{$lang.group_qty} / {$lang.group_min_qty}</th>
+                    <th>{$lang.store}</th>
+                    <!-- {if $smarty.get.state eq 'on'} --><th>{$lang.lefttime}</th><!-- {/if} -->
+                </tr>
+                <!-- {/if} -->
+                <!-- {foreach from=$groupbuy_list item=group} -->
+                <tr>
+                    <td class="group_pic"><a target="_blank" href="{url app=groupbuy&id=$group.group_id}"><img src="{$group.default_image}" alt="{$group.group_name|escape}" width="70" height="70" /></a></td>
+                    <td class="apellation"><a target="_blank" href="{url app=groupbuy&id=$group.group_id}">{$group.group_name|escape}</a></td>
+                    <td class="price">{$group.group_price|price}</td>
+                    <td class="member">{$group.quantity} / {$group.min_quantity}</td>
+                    <td class="usershop"><a target="_blank" href="{url app=store&id=$group.store_id}">{$group.store_name|escape}</a><br /><a target="_blank" class="email" target="_blank" href="{$site_url}/index.php?app=message&amp;act=send&amp;to_id={$group.store_id}"><img src="{res file=images/web_mail.gif}" alt="{$lang.send_pm}" /></a></td>
+                    <!-- {if $smarty.get.state eq 'on'} -->
+                    <td class="time">{$group.lefttime}</td>
+                    <!-- {/if} -->
+                </tr>
+                <!-- {foreachelse} -->
+                <tr>
+                    <td colspan="6">
+                    <div id="no_results"><!-- {$lang.no_groupbuy} --></div>
+                    </td>
+                </tr>
+                <!-- {/foreach} -->
+            </table>
+        </div>
+
+        <div class="shop_list_page">
+            {include file=page.bottom.html}
+        </div>
+
+    </div>
+    <!--{else}-->
+    <div class="module_common">
+        <p class="no_info">{$lang.no_groupbuy}</p>
+    </div>
+    <!--{/if}-->
+</div>
+{include file=footer.html}

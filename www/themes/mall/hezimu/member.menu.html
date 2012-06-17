@@ -1,0 +1,31 @@
+    <div id="left">
+        <h2>
+            <strong title="{$lang.user_center}"></strong>
+            <div class="adorn1"></div>
+            <div class="adorn2"></div>
+        </h2>
+    <!--{foreach from=$_member_menu item=item}-->
+        <!--{if $item.submenu}-->
+        <dl>
+            <dt>{$item.text}</dt>
+        <!--{foreach from=$item.submenu item=subitem k=k}-->
+            <dd>
+            <!--{if $subitem.name eq $_curitem}-->
+                <a href="{$subitem.url}" class="active"><span class="{$subitem.icon}">{$subitem.text}</span></a>
+            <!--{else}-->
+                <a href="{$subitem.url}" class="normal"><span class="{$subitem.icon}">{$subitem.text}</span></a>
+            <!--{/if}-->
+            </dd>
+        <!--{/foreach}-->
+        </dl>
+        <!--{/if}-->
+    <!--{/foreach}-->
+        <!--{if $_member_menu.overview}-->
+        <div class="application">
+            <p>{$lang.not_seller}: </p>
+            <a href="{$_member_menu.overview.url}" title="{$_member_menu.overview.text}"></a>
+        </div>
+        <div class="clear"></div> 
+        <!--{/if}-->
+        <div class="adorn_bottom"></div>
+    </div>

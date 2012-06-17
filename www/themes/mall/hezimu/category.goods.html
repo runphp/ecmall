@@ -1,0 +1,25 @@
+{include file=library/header.html}
+{include file=library/curlocal.html}
+<ul class="span-24 last">
+    <li class="span-24 last"><hr class="space"/></li>
+	<!--{foreach from=$gcategorys item=gcategory name=gcategory}-->
+	<li class="span-6 {if $smarty.foreach.gcategory.iteration % 4 == 0}last{/if}">
+	<div class="goods clearfix">
+		<h5 class="span-6 last"><a href="{url app=search&cate_id=$gcategory.id}">{$gcategory.value|escape}</a></h5>
+		<ul class="span-6 last">
+		<!--{foreach from=$gcategory.children item=child name=child}-->
+		<li class="span-3 {if $smarty.foreach.child.iteration % 2 == 0}last{/if}"><a href="{url app=search&cate_id=$child.id}">{$child.value|escape}</a></li>
+		<!--{/foreach}-->
+		</ul>
+	</div>
+	<li>
+	<!-- {if $smarty.foreach.gcategory.iteration % 4 == 0} --><li class="span-24 last"><hr class="space"/></li><!-- {/if} -->
+	<!--{/foreach}-->
+	
+</ul>
+
+<div class="ad_sidebar_list" area="right" widget_type="area">
+        <!--{widgets page=gcategory area=right}-->
+    </div>
+
+{include file=library/footer.html}

@@ -1,0 +1,14 @@
+                <script type="text/javascript">
+                function postscript_activation(tt){
+                    if (!tt.name)
+                    {
+                        tt.value    = '';
+                        tt.name = 'postscript';
+                    }
+
+                }
+                </script>
+                <h4 class="add_title"><b class="ico">{$lang.postscript}</b></h4>
+                <div class="message">
+                    <textarea id="postscript" onclick="postscript_activation(this);">{$lang.postscript_desc}</textarea>
+                </div>
