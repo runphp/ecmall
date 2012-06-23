@@ -4,7 +4,7 @@ class DefaultApp extends MallbaseApp
 {
     function index()
     {
-        $this->assign('index', 1); // 标识当前页面是首页，用于设置导航状态
+        //$this->assign('index', 1); // 标识当前页面是首页，用于设置导航状态
         $this->assign('icp_number', Conf::get('icp_number'));
 
         /* 热门搜素 */

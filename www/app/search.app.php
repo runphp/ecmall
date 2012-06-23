@@ -85,12 +85,13 @@ class SearchApp extends MallbaseApp
         $this->assign('display_mode', $display_mode);
 
         /* 取得导航 */
-        $this->assign('navs', $this->_get_navs());
+        //$this->assign('navs', $this->_get_navs());
 
         /* 当前位置 */
         $cate_id = isset($param['cate_id']) ? $param['cate_id'] : 0;
         $this->_curlocal($this->_get_goods_curlocal($cate_id));
-        
+        $this->assign('cate_id', $cate_id);
+
         /* 配置seo信息 */
         $this->_config_seo($this->_get_seo_info('goods', $cate_id));
         $this->display('search.goods.html');
@@ -336,11 +337,11 @@ class SearchApp extends MallbaseApp
         }
 
         $curlocal = array(
-            array('text' => LANG::get('all_categories'), 'url' => "javascript:dropParam('cate_id')"),
+            array('text' => LANG::get('all_categories'), 'url' => url("app=category")),
         );
         foreach ($parents as $category)
         {
-            $curlocal[] = array('text' => $category['cate_name'], 'url' => "javascript:replaceParam('cate_id', '" . $category['cate_id'] . "')");
+            $curlocal[] = array('text' => $category['cate_name'], 'url' => url("app=search&cate_id=" . $category['cate_id']));
         }
         unset($curlocal[count($curlocal) - 1]['url']);
 
