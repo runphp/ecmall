@@ -88,7 +88,7 @@ $('#nav').spasticNav();
 <ul class="span-24 last" id="nav">
     <li><a href="{$site_url}">{$lang.index}</a></li>
     <!--{foreach from=$navs.middle item=nav}-->
-    <li><a{if !$index and $nav.link eq $current_url} id="selected"{/if} href="{$nav.link}"{if $nav.open_new} rel="external"{/if}>{$nav.title|escape}</a></li>
+    <li><a{if $nav.link eq $current_url} id="selected"{/if} href="{$nav.link}"{if $nav.open_new} rel="external"{/if}>{$nav.title|escape}</a></li>
     <!--{/foreach}-->
 </ul>
 </div>
