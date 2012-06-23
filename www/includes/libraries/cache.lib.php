@@ -83,11 +83,11 @@ class PhpCacheServer extends CacheServer
     function &get($key)
     {
         $cache_file = $this->_get_cache_path($key);
-        if (!is_file($cache_file))
+        $data = false;
+        if (is_file($cache_file))
         {
-            return false;
-        }
-        $data = include($cache_file);
+            $data = include($cache_file);
+        }       
 
         return $data;
     }
