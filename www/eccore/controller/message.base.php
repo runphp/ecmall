@@ -291,7 +291,7 @@ class Message extends MessageBase
      * @author  wj
      * @return  void
      */
-    function display()
+    function display($f = null)
     {
         $this->message = str_replace(ROOT_PATH, '', $this->message);
 
