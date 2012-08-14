@@ -138,7 +138,7 @@ class BaseApp extends Object
     {
         import('session.lib');
         $db =& db();
-        $this->_session =& new SessionProcessor($db, '`ecm_sessions`', '`ecm_sessions_data`', 'ECM_ID');
+        $this->_session = new SessionProcessor($db, '`ecm_sessions`', '`ecm_sessions_data`', 'ECM_ID');
         define('SESS_ID', $this->_session->get_session_id());
         $this->_session->my_session_start();
     }
