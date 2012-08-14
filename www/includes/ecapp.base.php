@@ -134,7 +134,7 @@ class ECBaseApp extends BaseApp
     function _init_session()
     {
         import('session.lib');
-        $this->_session =& new SessionProcessor(db(), '`ecm_sessions`', '`ecm_sessions_data`', 'ECM_ID');
+        $this->_session = new SessionProcessor(db(), '`ecm_sessions`', '`ecm_sessions_data`', 'ECM_ID');
         define('SESS_ID', $this->_session->get_session_id());
         /* 清理超时的购物车项目 */
         $this->_session->add_related_table('`ecm_cart`', 'cart', 'session_id', 'user_id=0');

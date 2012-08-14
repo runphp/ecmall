@@ -46,7 +46,7 @@ else
 class ECMall
 {
     /* 启动 */
-    function startup($config = array())
+    static function startup($config = array())
     {
         /* 加载初始化文件 */
         require(ROOT_PATH . '/eccore/controller/app.base.php');     //基础控制器类
